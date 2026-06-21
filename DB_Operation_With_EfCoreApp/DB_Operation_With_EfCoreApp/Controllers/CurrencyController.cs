@@ -49,12 +49,23 @@ namespace DB_Operation_With_EfCoreApp.Controllers
         }
 
         //getting currency by its name (normal column)
-        [HttpGet("{name}")]
-        public async Task<IActionResult> GetCurrencyByName([FromRoute] string name)
-        {
-            //var result = await _dbcontext.CurrencyTypes.Where(x => x.Currency == name).FirstOrDefaultAsync();
+        //[HttpGet("{name}")]
+        //public async Task<IActionResult> GetCurrencyByName([FromRoute] string name)
+        //{
+        //    //var result = await _dbcontext.CurrencyTypes.Where(x => x.Currency == name).FirstOrDefaultAsync();
 
-            var result = await _dbcontext.CurrencyTypes.FirstOrDefaultAsync(x => x.Currency == name); //improve performance
+        //    var result = await _dbcontext.CurrencyTypes.FirstOrDefaultAsync(x => x.Currency == name); //improve performance
+
+        //    return Ok(result);
+        //}
+
+        //getting currency by its name( in url params) and description(in url query) i.e. serarching through two value
+        [HttpGet("{currencyname}")]
+        public async Task<IActionResult> GetCurrencyByNameAndDesc([FromRoute] string currencyname, [FromQuery] string description)
+        {
+            var result = _dbcontext.CurrencyTypes.FirstOrDefault(
+                x => x.Currency == currencyname && (string.IsNullOrEmpty(description) || x.Description == description)
+                );
 
             return Ok(result);
         }
