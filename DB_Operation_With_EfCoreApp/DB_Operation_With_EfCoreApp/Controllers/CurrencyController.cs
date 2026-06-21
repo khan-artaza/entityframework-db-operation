@@ -38,5 +38,14 @@ namespace DB_Operation_With_EfCoreApp.Controllers
             // Return status code 200 (OK) along with the data as JSON
             return Ok(result);
         }
+
+        //getting currency by its id (PK)
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetCurrencyById([FromRoute] int id)
+        {
+            var result = await _dbcontext.CurrencyTypes.FindAsync(id);
+
+            return Ok(result);
+        }
     }
 }
