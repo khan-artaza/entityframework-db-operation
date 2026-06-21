@@ -40,10 +40,21 @@ namespace DB_Operation_With_EfCoreApp.Controllers
         }
 
         //getting currency by its id (PK)
-        [HttpGet("{id}")]
+        [HttpGet("{id:int}")]
         public async Task<IActionResult> GetCurrencyById([FromRoute] int id)
         {
             var result = await _dbcontext.CurrencyTypes.FindAsync(id);
+
+            return Ok(result);
+        }
+
+        //getting currency by its name (normal column)
+        [HttpGet("{name}")]
+        public async Task<IActionResult> GetCurrencyByName([FromRoute] string name)
+        {
+            //var result = await _dbcontext.CurrencyTypes.Where(x => x.Currency == name).FirstOrDefaultAsync();
+
+            var result = await _dbcontext.CurrencyTypes.FirstOrDefaultAsync(x => x.Currency == name); //improve performance
 
             return Ok(result);
         }
