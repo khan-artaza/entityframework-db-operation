@@ -78,9 +78,20 @@ namespace DB_Operation_With_EfCoreApp.Controllers
         public async Task<IActionResult> GetAllDataWithIds([FromBody] List<int> ids)
         {
 
-            var result = await _dbcontext.CurrencyTypes.Where(x => ids.Contains(x.Id)).ToListAsync();
+            var result = await _dbcontext.CurrencyTypes
+                .Where(x => ids.Contains(x.Id))
+                .Select(x=> new CurrencyType() //get all the records from db but only with selected column not all column.
+                {
+                    Id = x.Id,
+                    Currency = x.Currency
+                })
+                .ToListAsync();
 
             return Ok(result);
         }
+
+        
+
+
     }
 }
