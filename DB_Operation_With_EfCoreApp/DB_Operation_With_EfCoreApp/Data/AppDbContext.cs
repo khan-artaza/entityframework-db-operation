@@ -15,7 +15,9 @@ namespace DB_Operation_With_EfCoreApp.Data
             modelBuilder.Entity<CurrencyType>().HasData(
                 new CurrencyType { Id = 1, Currency = "USD", Description = "US Dollar" },
                 new CurrencyType { Id = 2, Currency = "EUR", Description = "Euro" },
-                new CurrencyType { Id = 3, Currency = "GBP", Description = "British Pound" }
+                new CurrencyType { Id = 3, Currency = "GBP", Description = "British Pound" },
+                new CurrencyType { Id = 4, Currency = "INR", Description = "Indian Rupees"},
+                new CurrencyType { Id = 5, Currency = "INR", Description = "From India" }
                 );//seeding the CurrencyType table with initial data using the HasData method
 
             modelBuilder.Entity<Language>().HasData(

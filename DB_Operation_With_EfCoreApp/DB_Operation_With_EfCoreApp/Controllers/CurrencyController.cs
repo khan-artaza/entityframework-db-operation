@@ -69,5 +69,18 @@ namespace DB_Operation_With_EfCoreApp.Controllers
 
             return Ok(result);
         }
+
+        //if we want more than one data the we need to use : .Where(x=>s.Currency == currencyname).ToListAsync();
+
+        //if we want to fetch all the datas from the db with the respective ids (or any keys) incoming from client
+
+        [HttpPost("all")] //we use POST because the we can recieve the ids from req.body as well
+        public async Task<IActionResult> GetAllDataWithIds([FromBody] List<int> ids)
+        {
+
+            var result = await _dbcontext.CurrencyTypes.Where(x => ids.Contains(x.Id)).ToListAsync();
+
+            return Ok(result);
+        }
     }
 }
