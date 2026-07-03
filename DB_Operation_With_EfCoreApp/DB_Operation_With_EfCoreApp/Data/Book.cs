@@ -12,6 +12,6 @@
 
         public int LangugeId { get; set; } //adding a foreign key property to the Book class to establish a relationship between the two entities (book and language)
 
-        public Language Language { get; set; } //adding a navigation property to the Language class to establish a relationship between the two entities (book and language)
+        public Language ? Language { get; set; } //adding a navigation property to the Language class to establish a relationship between the two entities (book and language)
     }
 }
