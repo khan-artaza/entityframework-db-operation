@@ -35,6 +35,8 @@ namespace DB_Operation_With_EfCoreApp.Data
         public DbSet<BookPrice> BookPrices { get; set; } 
 
         public DbSet<CurrencyType> CurrencyTypes { get; set; }
+
+        public DbSet<Author> Authors { get; set; }
     }
 }
  
