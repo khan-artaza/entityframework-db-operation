@@ -56,5 +56,19 @@ namespace DB_Operation_With_EfCoreApp.Controllers
             await _appDbContext.SaveChangesAsync();
             return Ok(bookObj);
         }
+
+        //this method hits db only once that's why this technique is optimized way to update record in db but
+        //there is one drawback with this technique is we need to give each an every fiels of record from the
+        //frontend eventhough we dont need to update all fields, we just need to update only few fields.
+        //if we dont give all fields from the frontend then, that fields will become changes to null and lose its previous value.
+        [HttpPut("updates")]
+        public async Task<IActionResult> UpdateBookInSingleQuery([FromBody] Book bookObj)
+        {
+            _appDbContext.Books.Update(bookObj);
+
+            await _appDbContext.SaveChangesAsync();
+
+            return Ok(bookObj);
+        }
     }
 }
