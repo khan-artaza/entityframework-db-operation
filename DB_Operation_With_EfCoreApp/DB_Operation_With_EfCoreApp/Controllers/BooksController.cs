@@ -83,5 +83,27 @@ namespace DB_Operation_With_EfCoreApp.Controllers
 
             return Ok();
         }
+
+        [HttpDelete("delete/{id}")]
+        public async Task<IActionResult> DeleteOneById([FromRoute] int id)
+        {
+            //with double db hits
+            var book = _appDbContext.Books.FirstOrDefault(r => r.Id == id); //hit 1
+
+            if(book == null)
+            {
+                return NotFound();
+            }
+
+            _appDbContext.Books.Remove(book);
+
+            await _appDbContext.SaveChangesAsync(); //hit 2
+
+            return Ok();
+
+            //with single hit
+            /*var bookInstance = new Book() { Id = id };
+            _appDbContext.Entry(bookInstance).State = EntityState.Deleted;*/
+        }
     }
 }
