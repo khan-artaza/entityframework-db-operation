@@ -127,5 +127,18 @@ namespace DB_Operation_With_EfCoreApp.Controllers
 
             return Ok(books);
         }
+
+        [HttpGet("allbookDetails")]
+        public async Task<IActionResult> ShowAllBookWithAuthorDetails()
+        {
+            var bookdetails = _appDbContext.Books.AsNoTracking().Select(x => new
+            {
+                Title = x.Title,
+                Language = x.Language != null ? x.Language.Title : "NA",
+                Author = x.Author != null ? x.Author.Name : "NA"
+            });
+
+            return Ok(bookdetails);
+        }
     }
 }
