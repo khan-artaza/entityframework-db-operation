@@ -128,6 +128,7 @@ namespace DB_Operation_With_EfCoreApp.Controllers
             return Ok(books);
         }
 
+        //getting data from more than one table that are connected by navigation property i.e like join in sql
         [HttpGet("allbookDetails")]
         public async Task<IActionResult> ShowAllBookWithAuthorDetails()
         {
@@ -139,6 +140,23 @@ namespace DB_Operation_With_EfCoreApp.Controllers
             });
 
             return Ok(bookdetails);
+        }
+
+        //getting data of main table with related table data using eager loading technique
+        [HttpGet("getbooksinfo")]
+        public async Task<IActionResult> GetBookInfo()
+        { 
+
+            //EAGER LOADING - Eager Loading is a data retrieval technique in EF Core that loads the primary entity and its related entities in a single SQL query.
+            //It is implemented using Include() and ThenInclude() methods,
+            //which instruct EF Core to automatically join related tables during query execution.
+
+            var bookDetails = await _appDbContext.Books.AsNoTracking()
+                                                   .Include(t => t.Language)
+                                                   .Include(t => t.Author)
+                                                   .ToListAsync();
+
+            return Ok(bookDetails);
         }
     }
 }

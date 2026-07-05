@@ -1,4 +1,6 @@
-﻿namespace DB_Operation_With_EfCoreApp.Data
+﻿using System.Text.Json.Serialization;
+
+namespace DB_Operation_With_EfCoreApp.Data
 {
     public class Author
     {
@@ -8,6 +10,7 @@
 
 
         //one-to-many relationship setup
+        [JsonIgnore]
         public ICollection<Book> Books { get; set; }
     }
 }
