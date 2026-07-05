@@ -70,5 +70,18 @@ namespace DB_Operation_With_EfCoreApp.Controllers
 
             return Ok(bookObj);
         }
+
+        [HttpPut("updatebulk")]
+        public async Task<IActionResult> UpdateBulk()
+        {
+            await _appDbContext.Books
+                .Where(r => r.NoOfPages == 59) //if u want to give condition to update on rows with particular conditions
+                .ExecuteUpdateAsync(r => r //if u dont give Where conditions it update all rows
+                    .SetProperty(c => c.Description, "updated description 2")
+                    .SetProperty(c => c.Title, c => c.Title + "updated 2")
+                );
+
+            return Ok();
+        }
     }
 }
