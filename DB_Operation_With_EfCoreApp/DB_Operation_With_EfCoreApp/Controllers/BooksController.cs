@@ -105,5 +105,27 @@ namespace DB_Operation_With_EfCoreApp.Controllers
             /*var bookInstance = new Book() { Id = id };
             _appDbContext.Entry(bookInstance).State = EntityState.Deleted;*/
         }
+
+        [HttpDelete("deleteBulk")]
+        public async Task<IActionResult> DeleteInBulk()
+        {
+            var totalNumOfRowsDeleted = await _appDbContext.Books.Where(r => r.Id < 13).ExecuteDeleteAsync();
+
+            return Ok();
+        }
+
+        [HttpGet("allBooks")]
+        public async Task<IActionResult> ShowAllBooks()
+        {
+            /*
+                Adding .AsNoTracking() to your query tells Entity Framework: "Just give me the data. Do not track these objects."
+                Why we use it :
+                Performance. Speed: Queries execute faster because EF skips the extra work of setting up tracking information.
+                It is used when No tracking needed; we are just displaying the data to the UI.
+             */
+            var books = await _appDbContext.Books.AsNoTracking().ToListAsync();
+
+            return Ok(books);
+        }
     }
 }
