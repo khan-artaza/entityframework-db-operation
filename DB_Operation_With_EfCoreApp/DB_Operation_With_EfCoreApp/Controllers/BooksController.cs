@@ -158,5 +158,33 @@ namespace DB_Operation_With_EfCoreApp.Controllers
 
             return Ok(bookDetails);
         }
+
+        [HttpGet("explicitLoading")]
+        public async Task<IActionResult> GetBookByExplLoad()
+        {
+            /*Explicit loading is a technique in Entity Framework Core (EF Core) where related entities are loaded manually
+             after the main entity has been retrieved from the database.*/
+
+            //var book = await _appDbContext.Books.FirstAsync();
+
+            //_appDbContext.Entry(book).Reference(x => x.Author).LoadAsync(); //manually loaded
+
+            //_appDbContext.Entry(book).Reference(x => x.Language).LoadAsync(); //manually loaded
+
+            //return Ok(book);
+
+            var books = await _appDbContext.Books.ToListAsync();
+
+            foreach(Book book in books)
+            {
+                _appDbContext.Entry(book).Reference(x => x.Author).LoadAsync();
+
+                _appDbContext.Entry(book).Reference(x => x.Language).LoadAsync();
+            }
+
+            return Ok(books);
+
+
+        }
     }
 }
